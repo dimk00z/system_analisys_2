@@ -1,0 +1,117 @@
+happy_cat_box: {
+  shape: rectangle
+  cat_client: CatClient {
+    shape: person
+    icon: https://icons.terrastruct.com/dev%2Ftomcat.svg
+    style.multiple: true
+    
+  }
+  MCF:{
+    shape: rectangle
+    cat_worker: CatWorker {
+      shape: person
+      icon: https://icons.terrastruct.com/dev%2Ftomcat.svg
+      style.multiple: true
+    }
+    cat_manager: CatManager {
+      shape: person
+      icon: https://icons.terrastruct.com/dev%2Ftomcat.svg
+      style.multiple: true
+    }
+    dashboard:Дашборд{
+      shape: callout
+      manager_dashboard
+      worker_dashboard
+      client_dashboard
+    }
+    service_assembly_department:СервисОтделаСборкиРасходников{
+      shape: hexagon
+    }
+    billing_sevice: БиллинговыйСервис{
+      shape: hexagon
+    }
+    notification_service: СлужбаУведомлений{
+      shape: hexagon
+    }
+    order_service: СервисЗаказов{
+      shape: hexagon
+    }
+    matching_service: Инновационная система матчинга{
+      shape: hexagon
+    }
+    cats_data_service: СервисКотоДанных{
+      shape: hexagon
+    }
+    mcf_message_broker: КотоМесседжБрокер{
+      shape: queue
+    }
+  }
+}
+contractor_who_makes_cookies:Подрядчик, который готовит печенья{
+  shape: cylinder
+
+}
+cat_email_provider:КотоПочта{
+  shape: cloud
+}
+# connects
+# users
+happy_cat_box.cat_client<->happy_cat_box.MCF.dashboard.client_dashboard
+happy_cat_box.MCF.cat_manager<->happy_cat_box.MCF.dashboard.manager_dashboard
+happy_cat_box.MCF.cat_worker<->happy_cat_box.MCF.dashboard.worker_dashboard
+
+
+# inner connctions
+happy_cat_box.MCF.dashboard<->happy_cat_box.MCF.mcf_message_broker
+
+happy_cat_box.MCF.mcf_message_broker<->happy_cat_box.MCF.billing_sevice
+happy_cat_box.MCF.mcf_message_broker<->happy_cat_box.MCF.order_service
+happy_cat_box.MCF.mcf_message_broker<->happy_cat_box.MCF.matching_service
+happy_cat_box.MCF.mcf_message_broker<->happy_cat_box.MCF.service_assembly_department
+happy_cat_box.MCF.mcf_message_broker<->happy_cat_box.MCF.notification_service
+happy_cat_box.MCF.mcf_message_broker<->happy_cat_box.MCF.cats_data_service
+
+#external connections
+happy_cat_box.MCF.service_assembly_department<->contractor_who_makes_cookies
+happy_cat_box.MCF.notification_service<->cat_email_provider
+
+
+# network: Network {
+#   tower: Cell Tower {
+#     satellites: {
+#       shape: stored_data
+#       style.multiple: true
+#     }
+
+#     satellites -> transmitter
+#     satellites -> transmitter
+#     satellites -> transmitter
+#     transmitter
+#   }
+#   processor: Data Processor {
+#     storage: Storage {
+#       shape: cylinder
+#       style.multiple: true
+#     }
+#   }
+#   portal: Online Portal {
+#     UI
+#   }
+
+#   tower.transmitter -> processor: phone logs
+# }
+# server: API Server
+
+# user -> network.tower: Make call
+# network.processor -> server
+# network.processor -> server
+# network.processor -> server
+
+# server -> logs
+# server -> logs
+# server -> logs: persist
+
+# server -> network.portal.UI: display
+# user -> network.portal.UI: access {
+#   style.stroke-dash: 3
+# }
