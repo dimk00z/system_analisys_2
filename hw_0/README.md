@@ -6,6 +6,7 @@
 
 ![system struct](/hw_0/struct.png)
 
+[struct.d2](/hw_0/struct.d2)
 ## Описание системы
 
 ### Пользователи
