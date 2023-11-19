@@ -1,0 +1,170 @@
+recruting_service:Рекрутинг котов-воркеров{
+  shape: rectangle
+  
+  request: Заявка кота{
+    shape: class
+    cat_data: "Данные о коте"
+  }
+  
+  vacancy: Вакансия кота{
+    shape: class
+    cat_data: "Данные о вакансии"
+  }
+  vacancy->request: has_many
+  
+  cat_tests: Vacancy test{
+    shape: class
+    test_data: "Данные о тесте"
+  }
+  vacancy->cat_tests: has_many
+
+  test_result: Vacancy test's result{
+    shape: class
+    tests_result: "Данные о результате"
+  }
+  request->test_result: has_one
+  vacancy->test_result: has_many
+
+  new_worker: NewCatWorker{
+    shape: class
+    worker_data: "Данные о коте"
+    charcteristics: Характеристики кота
+    name: Имя кота
+    age: Возраст кота
+    breed: Порода кота
+    color: Цвет кота
+    photo: Фото кота
+  }
+  new_worker->request: has_one
+}
+
+adding_orders_service:Добавление заказов{
+    shape: rectangle
+    cat_client: Кот-клиент{
+        shape: class
+        cat_data: "Данные о коте"
+    }
+    order: Заказ{
+        shape: class
+        service: "услуга"
+        datetime: "дата и время"
+    }
+    service: "Услуга для заказа"{
+        shape: class
+        description: "описание"
+        price: "цена" 
+    }
+    order->service: has_one
+    cat_client->order: has_many
+}
+execution_orders_service:Выполнение заказа{
+    shape: rectangle
+    cat_worker: Кот-воркер{
+        shape: class
+        charcteristics: Характеристики кота
+        other_cat_data: "Данные о коте"
+    }
+    order: Заказ{
+        shape: class
+        description: "описание"
+        datetime: "дата и время"
+        location: "место"
+        service: "услуга"
+    }
+    order_result: "Результат выполнения"{
+        shape: class
+        description: "описание"
+        success: "bool"
+    }
+    order->order_result: has_one
+}
+
+recruting_service.new_worker<-execution_orders_service.cat_worker: has_many
+execution_orders_service.order->execution_orders_service.cat_worker: has_one
+execution_orders_service.order->adding_orders_service.order: has_one
+
+quality_control_service:Менеджмент качества заказов{
+    shape: rectangle
+    order: Заказ{
+        shape: class
+    }
+    order_check: "Проверка заказа"{
+        shape: class
+        description: "описание"
+    }
+    order->order_check: has_one
+    manager: "Менеджер"{
+        shape: class
+    }
+    order_check<-manager: has_many
+}
+quality_control_service.order->execution_orders_service.order: has_many
+supply_service:Учет и выдача расходников{
+    shape: rectangle
+    expendable_materials: "Расходные материалы"{
+        shape: class
+        description: "описание материалов"
+    }
+    cat_worker: "Кот-воркер"{
+        shape: class
+    }
+    order: Заказ{
+        shape: class
+    }
+    order->expendable_materials: has_many
+    order->cat_worker: has_one
+}
+execution_orders_service.cat_worker->supply_service.cat_worker
+supply_service.order->adding_orders_service.order: has_one
+
+accounting_service:Расчет зарплат и премий{
+    shape: rectangle
+    cat_client: Кот-клиент{
+        shape: class
+    }
+    client_account: "Аккаунт клиента"{
+        shape: class
+        payment_type: "Тип оплаты"
+    }
+    cat_client->client_account: has_one
+    cat_worker: "Кот-воркер"{
+        shape: class
+    }
+    worker_account: "Аккаунт воркера"{
+        shape: class
+        balance: "Баланс"
+    }
+    event: "Событие"{
+        shape: class
+        type: "Тип события"
+    }
+    transaction: "Транзакция"{
+    }
+    event->transaction: has_one
+    client_account->event: has_many
+    worker_account->event: has_many
+    cat_worker->worker_account: has_one
+}
+adding_orders_service.cat_client->accounting_service.cat_client
+execution_orders_service.cat_worker->accounting_service.cat_worker
+
+betting_service:Тотализатор серой зоны{
+    shape: rectangle
+    bet: "Ставка"{
+        shape: class
+        price: "цена"
+    }
+    manager: "Менеджер"{
+        
+    }
+    order: Заказ{
+        
+    }
+    result: "Результат"{
+        
+    }
+    bet->order: has_one
+    bet->result: has_one
+    manager->bet: has_many
+}
+adding_orders_service.order->betting_service.order
