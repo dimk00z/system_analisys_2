@@ -24,10 +24,17 @@ betting_service:Тотализатор серой зоны{
 
 money_debit_service:Списания у эталонных образцов{
     shape: rectangle
+
+    client_account: Клиентский счёт{
+        shape: class
+    }
 }
 
 money_payment_service:Выплаты обычным образцам{
     shape: rectangle
+    worker_account: Счёт обычного образца{
+        shape: class
+    }
 }
 
 quality_control_service:Менеджмент качества заказов{
@@ -66,3 +73,6 @@ calculation_service:Расчет стоимости услуг{
 }
 
 calculation_service.client_service_price->orders_service.order
+
+money_debit_service.client_account<-orders_service.order_result
+money_payment_service.worker_account<-orders_service.order_result
