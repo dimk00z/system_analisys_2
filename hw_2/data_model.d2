@@ -1,0 +1,68 @@
+recruting_service:Рекрутинг обычных образцов{
+    shape: rectangle
+    new_worker: Новый обычный образец{
+        shape: class
+    }
+}
+
+get_workers_service:Подбор обычных образцов{
+    shape: rectangle
+    worker_for_order: Обычный образец{
+        shape: class
+    }
+}
+recruting_service.new_worker->get_workers_service.worker_for_order
+
+betting_service:Тотализатор серой зоны{
+    shape: rectangle
+
+    bet: Ставка{
+        shape: class
+    }
+
+}
+
+money_debit_service:Списания у эталонных образцов{
+    shape: rectangle
+}
+
+money_payment_service:Выплаты обычным образцам{
+    shape: rectangle
+}
+
+quality_control_service:Менеджмент качества заказов{
+    shape: rectangle
+
+    managment_result: Результат менеджмента{
+        shape: class
+    }
+}
+
+orders_service:Выполнение задачи по по тыгыдыканию и скидыванию стаканов{
+    shape: rectangle
+    
+    order: Заказ{
+        shape: class
+    }
+    
+    order_result: Результат заказа{
+        shape: class
+    }
+}
+
+orders_service.order->orders_service.order_result
+orders_service.order_result->quality_control_service.managment_result
+
+orders_service.order->betting_service.bet
+
+get_workers_service.worker_for_order->orders_service.order
+
+calculation_service:Расчет стоимости услуг{
+    shape: rectangle
+
+    client_service_price: Стоимость услуги{
+        shape: class
+    }
+}
+
+calculation_service.client_service_price->orders_service.order

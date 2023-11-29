@@ -110,4 +110,5 @@
 
 ### Итоговая модель системы
 
-pass
+[data_model.d2](/hw_2/data_model.d2)
+![data model](/hw_2/data_model.png)
