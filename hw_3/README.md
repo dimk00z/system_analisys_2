@@ -83,3 +83,5 @@
 - нагрузочное тестирование
 
 ### Architectural decision records
+
+[ADR](/hw_3/ADR/ADR-001.md) - не уверен, что успею сделать
